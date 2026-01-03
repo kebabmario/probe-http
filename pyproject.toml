@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "probe-http"
+version = "0.1.0"
+authors = [{name = "Kebabmario"}]
+description = "HTTP request debugger and profiler"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["httpx>=0.27.0"]
+[project.optional-dependencies]
+rich = ["rich>=13.0"]
+
+[project.scripts]
+probe = "probe.cli:app"
