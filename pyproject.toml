@@ -15,3 +15,6 @@ rich = ["rich>=13.0"]
 
 [project.scripts]
 probe = "probe.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/probe"]   
