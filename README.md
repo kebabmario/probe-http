@@ -1,91 +1,71 @@
 # probe-http
 
-Lightweight HTTP request debugger and profiler for Python.
+A lightweight CLI tool to probe HTTP endpoints and show request timings broken down by phase.
 
-Shows detailed request timings broken down by phase  
-(DNS lookup, TCP connect, TLS handshake, server wait, data transfer),  
-status code, and more — perfect for figuring out why an API call is slow or failing.
+Shows approximate timings for DNS, TCP connect, TLS, server wait, and transfer — plus status code.
 
 ## Features
-- Easy decorator to wrap your HTTP calls
-- Simple CLI for quick testing
-- Phase-by-phase timing breakdown (MVP uses simulated values; real timings coming soon)
-- Pretty, colored tree-style output (optional via `rich`)
-- Works with sync and async code
-- Very few dependencies
+- Simple `probe get <url>` command
+- Pretty tree output with rich (optional)
+- Flags: `--verbose` / `--no-verbose`, `--timeline` / `--no-timeline`, `--json`
+- Works with httpx under the hood
 
 ## Installation
-
-Install the base package:
-
 ```bash
-pip install probe-http
+pip install probe
+# or with colored output (recommended)
+pip install probe[rich]
 ```
 
-For the nice colored output (highly recommended):
+## Usage
 
+Basic probe:
 ```bash
-pip install "probe-http[rich]"
+probe https://httpbin.org/get
 ```
 
-That's it — you're ready to start debugging HTTP requests!
-
-## Quick Start
-
-### As a library (decorator)
-
-```python
-from probe import track
-import httpx
-
-@track(verbose=True, timeline=True)
-def fetch_data():
-    return httpx.get("https://httpbin.org/get")
-
-fetch_data()
-```
-
-Expected output (with rich installed):
-
+Example output:
 ```
 Request to https://httpbin.org/get
-├── DNS resolve:     0.032s
-├── TCP connect:     0.045s
+├── DNS resolve:     0.050s
+├── TCP connect:     0.080s
 ├── TLS handshake:   0.120s
-├── Server wait:     0.180s
+├── Server wait:     0.300s
 └── Transfer:        0.250s
 Status: 200 OK
 ```
 
-### As a CLI tool
-
+JSON mode:
 ```bash
-# Basic probe
-probe get https://httpbin.org/get
-
-# With more detail
-probe get https://api.github.com --verbose
+probe https://httpbin.org/get --json
 ```
 
----
+Silent / no timeline:
+```bash
+probe https://httpbin.org/get --no-verbose --no-timeline
+```
 
-## Roadmap
-- Real per-phase timings using httpx transport hooks
-- Support for requests and aiohttp
-- Export to JSON or HAR format
-- Proxy mode for capturing traffic
-- Custom output styles
+Full help:
+```bash
+probe --help
+```
 
-## Contributing
-Contributions welcome!
+## Development / Contributing
+Clone and install editable:
+```bash
+git clone https://github.com/kebabmario/probe.git
+cd probe
+pip install -e .[rich]
+```
 
-1. Fork the repo
-2. Create your branch (`git checkout -b feature/your-feature`)
-3. Commit changes (`git commit -m 'Add your feature'`)
-4. Push (`git push origin feature/your-feature`)
-5. Open a Pull Request
+Run tests/lint:
+```bash
+pytest
+ruff check .
+mypy .
+```
 
 ## License
-MIT License — see the [LICENSE](LICENSE) file for details.
+MIT License – see [LICENSE](LICENSE)
 
-Made with ❤️ by Kebabmario
+Made by Kebabmario
