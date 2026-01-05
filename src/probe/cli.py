@@ -12,13 +12,15 @@ app = typer.Typer(
 @app.command()
 def get(
     url: str = typer.Argument(..., help="The URL to probe"),
-    verbose: bool = typer.Option(True, "--verbose", "-v"),
-    timeline: bool = typer.Option(True, "--timeline/--no-timeline"),
+    verbose: bool = typer.Option(True, "--verbose/--no-verbose", help="Show detailed output"),
+    timeline: bool = typer.Option(True, "--timeline/--no-timeline", help="Show phase timeline"),
+    json_output: bool = typer.Option(False, "--json", help="Output as JSON instead of text"),
 ):
-    """Send a GET request and show debug/profiling info."""
-    @track(url=url, verbose=verbose, timeline=timeline)
+    """Probe a URL with GET and show timings + status."""
+    @track(url=url, verbose=verbose, timeline=timeline, json_output=json_output)
     def fetch():
         return httpx.get(url)
+
     fetch()
 
 
