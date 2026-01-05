@@ -1,5 +1,4 @@
 import time
-import httpx
 import json
 from typing import Callable, Any
 from dataclasses import dataclass
