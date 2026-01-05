@@ -1,7 +1,9 @@
 import time
 import json
-from typing import Callable, Any
+from typing import Callable, Any, Optional
 from dataclasses import dataclass
+
+console: Optional[Console] = None
 
 try:
     from rich.console import Console
