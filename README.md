@@ -5,7 +5,7 @@ A lightweight CLI tool to probe HTTP endpoints and show request timings broken d
 Shows approximate timings for DNS, TCP connect, TLS, server wait, and transfer — plus status code.
 
 ## Features
-- Simple `probe get <url>` command
+- Simple `probe <url>` command
 - Pretty tree output with rich (optional)
 - Flags: `--verbose` / `--no-verbose`, `--timeline` / `--no-timeline`, `--json`
 - Works with httpx under the hood
